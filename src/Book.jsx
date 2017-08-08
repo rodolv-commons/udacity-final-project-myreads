@@ -1,19 +1,21 @@
 import React from 'react';
 import { Component, PropTypes } from 'react';
 import './App.css';
+import * as BooksAPI from './BooksAPI'
+
 
 class Book extends Component {
 
-    constructor(props) {
-        super(props);
-        this.state = {value: 'read'};
+    state = {value: this.props.shelf};
 
-        this.handleChange = this.handleChange.bind(this);
-    }
+    //this.handleChange = this.handleChange.bind(this);
 
-    handleChange = (event) => {
+
+    onChange = (event) => {
         this.setState({value: event.target.value});
         alert('Your favorite book state is: ' + this.state.value);
+        //BooksAPI.update(BooksAPI.get(this.props.id),this.state.value)
+        console.log(BooksAPI.get(this.props.id));
     }
 
     render() {
@@ -22,7 +24,7 @@ class Book extends Component {
                 <div className="book-top">
                     <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: this.props.cover}}></div>
                     <div className="book-shelf-changer">
-                        <select value={this.state.value} onChange={this.handleChange}>
+                        <select value={this.state.value} onChange={this.onChange}>
                             <option value="none" disabled>Move to...</option>
                             <option value="currentlyReading">Currently Reading</option>
                             <option value="wantToRead">Want to Read</option>
@@ -43,12 +45,8 @@ Book.PropTypes = {
     title: PropTypes.string.isRequired,
     cover: PropTypes.string.isRequired,
     author: PropTypes.string.isRequired,
-}
-
-Book.props = {
-    title: ' ',
-    cover: ' ',
-    author: ' ',
+    shelf: PropTypes.string.isRequired,
+    id: PropTypes.string.isRequired,
 }
 
 export default Book;
